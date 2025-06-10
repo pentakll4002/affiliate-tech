@@ -3,13 +3,27 @@
     <!-- Header -->
     <header class="flex flex-wrap items-center justify-between px-4 sm:px-6 py-2 gap-2">
       <!-- Logo -->
-      <div class="flex items-center gap-3">
-        <img src="./assets/images/techdeal.jpg" alt="Logo" class="h-10 w-10 object-cover rounded-md" />
-        <div class="flex flex-col leading-tight">
-          <span class="text-base sm:text-lg font-bold text-sky-600">Mottech.vn</span>
-          <span class="text-[10px] text-gray-400 tracking-widest hidden sm:block">MẠNG XÃ HỘI</span>
-        </div>
-      </div>
+      <a
+  href="#"
+  class="group flex items-center gap-3 p-2 rounded-lg bg-transparent transition-all duration-500 ease-in-out hover:scale-105"
+>
+  <img
+    src="./assets/images/techdeal.jpg"
+    alt="Logo"
+    class="h-10 w-10 object-cover rounded-lg transition duration-500 ease-in-out group-hover:scale-110"
+  />
+  <div class="flex flex-col leading-tight">
+    <span class="text-base sm:text-lg font-semibold text-sky-600 group-hover:text-sky-700 transition-all duration-300">
+      Mottech.vn
+    </span>
+    <span
+      class="text-[10px] text-gray-400 tracking-widest hidden sm:block group-hover:text-gray-500 transition-all duration-300"
+    >
+      MẠNG XÃ HỘI
+    </span>
+  </div>
+</a>
+
 
       <!-- Search bar -->
       <div class="flex-1 p-4 hidden sm:block">
