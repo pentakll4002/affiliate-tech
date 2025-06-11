@@ -1,10 +1,8 @@
 <template>
     <div class="bg-white shadow-lg rounded-xl px-4 py-4">
-      <h2 class="text-xl font-semibold mb-3">Tinhte Fact</h2>
+      <h2 class="text-xl font-semibold mb-3">MọtTech Fact</h2>
   
-      <!-- Thanh cuộn ngang giống tab -->
       <div class="flex space-x-4 overflow-x-auto pb-2 scrollbar-hide">
-        <!-- Tạo fact mới -->
         <div
           class="flex-shrink-0 w-[120px] h-[210px] rounded-2xl bg-gradient-to-br from-blue-400 to-green-400 
                  flex flex-col items-center justify-center text-white text-sm font-semibold cursor-pointer 
@@ -17,7 +15,6 @@
           Tạo fact mới
         </div>
   
-        <!-- Các item fact -->
         <FactCard
           v-for="(fact, index) in facts"
           :key="index"
@@ -42,7 +39,6 @@
       avatar: './assets/avatars/avatar2.jpg',
       username: 'thianfatech',
     },
-    // Add more...
   ]
   </script>
   
