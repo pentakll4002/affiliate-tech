@@ -23,12 +23,12 @@
             </nav>
   
             <div class="flex items-center space-x-4">
-              <button class="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200">
+              <button class="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 transform hover:scale-110">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
               </button>
-              <button class="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200">
+              <button class="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 transform hover:scale-110">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9h6v6H9z"/>
@@ -48,7 +48,7 @@
               <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-slate-800 flex items-center">
                   <span class="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-3"></span>
-                  Chuyện trang xem nhanh
+                  Chuyển trang xem nhanh
                 </h2>
                 <button class="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center space-x-1 transition-colors">
                   <span>Xem tất cả</span>
@@ -62,7 +62,7 @@
                 <article 
                   v-for="(article, index) in featuredArticles" 
                   :key="index"
-                  class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 hover:border-blue-200"
+                  class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 hover:border-blue-200 transform hover:scale-105"
                 >
                   <div class="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
@@ -178,9 +178,9 @@
                 <div 
                   v-for="(community, index) in communities" 
                   :key="index"
-                  class="group flex items-center space-x-3 p-3 rounded-xl hover:bg-slate-50 transition-all duration-200 cursor-pointer"
+                  class="group flex items-center space-x-3 p-3 rounded-xl hover:bg-slate-50 transition-all duration-200 cursor-pointer transform hover:scale-105"
                 >
-                  <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                  <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                     <span class="text-white font-bold">{{ community.icon }}</span>
                   </div>
                   <div class="flex-1">
@@ -207,7 +207,9 @@
                   <span 
                     v-for="(tag, index) in hotTags" 
                     :key="index"
-                    class="px-3 py-1 bg-gradient-to-r from-orange-100 to-red-100 text-orange-700 rounded-full text-sm font-medium hover:from-orange-200 hover:to-red-200 transition-all duration-200 cursor-pointer"
+                    class="px-3 py-1 bg-gradient-to-r from-orange-100 to-red-100 text-orange-700 rounded-full text-sm font-medium
+                           hover:from-orange-200 hover:to-red-200 transition-all duration-200 cursor-pointer
+                           transform hover:scale-105"
                   >
                     #{{ tag }}
                   </span>
@@ -349,7 +351,7 @@
     },
     {
       title: "Sam Altman: Mỗi truy vấn ChatGPT sẽ sử dụng lượng nước tương đương 'một phần mười lăm thìa cafe'",
-      excerpt: "Sam Altman: Mỗi truy vấn ChatGPT sẽ sử dụng lượng nước tương đương 'một phần mười lăm thìa cafe'. Sam Altman, CEO của OpenAI, vừa chia sẻ rằng mỗi truy vấn ChatGPT trong tương lai có thể tiêu thụ lượng nước 'không một phần mười lăm thìa cà phê'...",
+      excerpt: "Sam Altman: Mỗi truy vấn ChatGPT sẽ sử dụng lượng nước tương đương 'một phần mười lăm thìa cà phê'. Sam Altman, CEO của OpenAI, vừa chia sẻ rằng mỗi truy vấn ChatGPT trong tương lai có thể tiêu thụ lượng nước 'không một phần mười lăm thìa cà phê'...",
       author: "techreporter",
       time: "12 giờ trước",
       category: "AI",

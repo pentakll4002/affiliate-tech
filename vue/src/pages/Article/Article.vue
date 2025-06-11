@@ -339,9 +339,7 @@
     </main>
   </template>
   
-  <script lang="ts">
-  import { defineComponent } from 'vue';
-  
+  <script setup lang="ts">
   interface QuickLink {
     title: string;
     image: string;
@@ -349,83 +347,77 @@
     time: string;
   }
   
-  export default defineComponent({
-    name: 'Article',
-    data() {
-      return {
-        quickLinks: [
-          {
-            title: 'Mỹ tiếp tục đình chỉ xuất khẩu động cơ và phụ tùng đối với dòng COMAC...',
-            image: 'https://via.placeholder.com/80x60/ef4444/ffffff?text=COMAC',
-            source: 'Tech News',
-            time: '2h trước'
-          },
-          {
-            title: 'Lỗ hổng bảo mật có thể khiến số điện thoại liên kết với tài khoản Google...',
-            image: 'https://via.placeholder.com/80x60/f97316/ffffff?text=Security',
-            source: 'Security Alert',
-            time: '4h trước'
-          },
-          {
-            title: 'Giỡn chơi xấu với iOS mới mà vợ giận luôn. Tim Cook hại mình rồi...',
-            image: 'https://via.placeholder.com/80x60/8b5cf6/ffffff?text=iOS',
-            source: 'User Story',
-            time: '6h trước'
-          },
-          {
-            title: 'Vật liệu từ những con tàu đắm trong Thế chiến thứ 2 lại lời giải cho bức xạ...',
-            image: 'https://via.placeholder.com/80x60/06b6d4/ffffff?text=Science',
-            source: 'Science',
-            time: '8h trước'
-          },
-          {
-            title: 'Các nhà khoa học đang phát triển một thế hệ trí tuệ nhân tạo (AI) hoàn...',
-            image: 'https://via.placeholder.com/80x60/10b981/ffffff?text=AI',
-            source: 'AI Research',
-            time: '10h trước'
-          },
-          {
-            title: 'Sam Altman: Mỗi truy vấn ChatGPT sẽ sử dụng lượng nước tương đương...',
-            image: 'https://via.placeholder.com/80x60/f59e0b/ffffff?text=ChatGPT',
-            source: 'Tech Report',
-            time: '12h trước'
-          },
-          {
-            title: 'Chuỗi những tia vị sét có thể là tác nhân tạo ra thành phần cơ bản của s...',
-            image: 'https://via.placeholder.com/80x60/ec4899/ffffff?text=Space',
-            source: 'Space News',
-            time: '1 ngày trước'
-          },
-          {
-            title: 'Loài người đã sử dụng xương cá voi để chế tạo dụng cụ săn bắn từ 20.0...',
-            image: 'https://via.placeholder.com/80x60/84cc16/ffffff?text=History',
-            source: 'History',
-            time: '1 ngày trước'
-          }
-        ] as QuickLink[],
-        popularTags: [
-          'iOS26', 'WWDC2025', 'LiquidGlass', 'Apple', 'AI', 'Tech', 'Mobile', 'Security'
-        ],
-        trendingTopics: [
-          'Công nghệ màn hình QLED',
-          'So sánh iOS 26 vs iOS 18',
-          'Hướng dẫn nâng cấp iOS',
-          'Tin tức WWDC 2025',
-          'Bảo mật điện thoại',
-          'Xu hướng AI 2025'
-        ]
-      };
+  const quickLinks: QuickLink[] = [
+    {
+      title: 'Mỹ tiếp tục đình chỉ xuất khẩu động cơ và phụ tùng đối với dòng COMAC...',
+      image: 'https://via.placeholder.com/80x60/ef4444/ffffff?text=COMAC',
+      source: 'Tech News',
+      time: '2h trước'
     },
-    methods: {
-      formatDate(date: Date): string {
-        return new Intl.DateTimeFormat('vi-VN', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric'
-        }).format(date);
-      }
+    {
+      title: 'Lỗ hổng bảo mật có thể khiến số điện thoại liên kết với tài khoản Google...',
+      image: 'https://via.placeholder.com/80x60/f97316/ffffff?text=Security',
+      source: 'Security Alert',
+      time: '4h trước'
+    },
+    {
+      title: 'Giỡn chơi xấu với iOS mới mà vợ giận luôn. Tim Cook hại mình rồi...',
+      image: 'https://via.placeholder.com/80x60/8b5cf6/ffffff?text=iOS',
+      source: 'User Story',
+      time: '6h trước'
+    },
+    {
+      title: 'Vật liệu từ những con tàu đắm trong Thế chiến thứ 2 lại lời giải cho bức xạ...',
+      image: 'https://via.placeholder.com/80x60/06b6d4/ffffff?text=Science',
+      source: 'Science',
+      time: '8h trước'
+    },
+    {
+      title: 'Các nhà khoa học đang phát triển một thế hệ trí tuệ nhân tạo (AI) hoàn...',
+      image: 'https://via.placeholder.com/80x60/10b981/ffffff?text=AI',
+      source: 'AI Research',
+      time: '10h trước'
+    },
+    {
+      title: 'Sam Altman: Mỗi truy vấn ChatGPT sẽ sử dụng lượng nước tương đương...',
+      image: 'https://via.placeholder.com/80x60/f59e0b/ffffff?text=ChatGPT',
+      source: 'Tech Report',
+      time: '12h trước'
+    },
+    {
+      title: 'Chuỗi những tia vị sét có thể là tác nhân tạo ra thành phần cơ bản của s...',
+      image: 'https://via.placeholder.com/80x60/ec4899/ffffff?text=Space',
+      source: 'Space News',
+      time: '1 ngày trước'
+    },
+    {
+      title: 'Loài người đã sử dụng xương cá voi để chế tạo dụng cụ săn bắn từ 20.0...',
+      image: 'https://via.placeholder.com/80x60/84cc16/ffffff?text=History',
+      source: 'History',
+      time: '1 ngày trước'
     }
-  });
+  ];
+  
+  const popularTags = [
+    'iOS26', 'WWDC2025', 'LiquidGlass', 'Apple', 'AI', 'Tech', 'Mobile', 'Security'
+  ];
+  
+  const trendingTopics = [
+    'Công nghệ màn hình QLED',
+    'So sánh iOS 26 vs iOS 18',
+    'Hướng dẫn nâng cấp iOS',
+    'Tin tức WWDC 2025',
+    'Bảo mật điện thoại',
+    'Xu hướng AI 2025'
+  ];
+  
+  function formatDate(date: Date): string {
+    return new Intl.DateTimeFormat('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    }).format(date);
+  }
   </script>
   
   <style scoped>

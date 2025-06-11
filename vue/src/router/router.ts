@@ -1,15 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from './pages/About/Home.vue';
-import QuicklyPage from '@/pages/About/QuicklyPage.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from "@/pages/Home/Home.vue";
+import QuicklyPage from '@/pages/QuicklyPage/QuicklyPage.vue'
 
 const routes = [
-    { path: '/', component: Home },
-    { path: '/quickly-page', component: QuicklyPage }
-];
+  { path: '/', component: Home },
+  { path: '/quickly-page', component: QuicklyPage }
+]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-});
+})
 
-export default router;
+export default router

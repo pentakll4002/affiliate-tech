@@ -1,17 +1,11 @@
 <template>
-    <div>
-      <Header />
-      <Article />
-      <Footer />
-    </div>
-  </template>
-  
-  <script setup>
-  import Header from '@/pages/About/Header.vue';
-  import Footer from '@/pages/About/Footer.vue';
-  import Article from '@/pages/About/Article.vue';
-  </script>
-  
-  <style scoped>
-  /* Thêm các style nếu cần */
-  </style>
+  <div>
+    <TheFact />
+    <TheArticle />
+  </div>
+</template>
+
+<script setup>
+import TheFact from '@/pages/Fact/Fact.vue'
+import TheArticle from '@/pages/Article/Article.vue'
+</script>
