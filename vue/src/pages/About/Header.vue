@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white shadow-sm font-sans">
+  <div class="bg-white shadow-lg font-sans">
     <!-- Header -->
-    <header class="flex flex-wrap items-center justify-between px-4 sm:px-6 py-2 gap-2">
+    <header class="flex flex-wrap items-center justify-between px-4 sm:px-6 py-4 gap-4"> <!-- Increased padding -->
       <!-- Logo -->
       <a
   href="#"

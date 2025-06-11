@@ -3,6 +3,7 @@
     <TheHeader />
     <main class="flex-grow">
       <router-view />
+      <TheFact />
     </main>
     <TheFooter />
   </div>
@@ -11,4 +12,5 @@
 <script setup>
 import TheHeader from './pages/About/Header.vue'
 import TheFooter from './pages/About/Footer.vue'
+import TheFact from './pages/About/Fact.vue'
 </script>
