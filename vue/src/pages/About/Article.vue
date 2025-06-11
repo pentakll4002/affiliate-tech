@@ -4,7 +4,7 @@
         <!-- Main Content Area -->
         <div class="flex-1 max-w-4xl">
           <!-- Featured Article -->
-          <article class="bg-white rounded-xl mb-6 overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+          <article class="bg-white rounded-xl mb-6 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
             <div class="relative">
               <img 
                 src="https://via.placeholder.com/800x450/4338ca/ffffff?text=QLED+vs+QD-MiniLED" 
@@ -17,7 +17,7 @@
                 <span class="inline-block bg-blue-600 text-xs px-3 py-1 rounded-full mb-2 font-medium">
                   CÔNG NGHỆ
                 </span>
-                <h1 class="text-2xl md:text-3xl font-bold mb-2 leading-tight">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2 leading-tight">
                   TV QLED và QD-MiniLED: khác nhau nhiều, cần biết để chọn đúng
                 </h1>
                 <div class="flex items-center text-sm opacity-90">
@@ -35,7 +35,7 @@
           <!-- Secondary Articles Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             <!-- Article 1 -->
-            <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
               <div class="relative">
                 <img 
                   src="https://via.placeholder.com/300x200/ec4899/ffffff?text=iOS+26+Features" 
@@ -64,7 +64,7 @@
             </article>
   
             <!-- Article 2 -->
-            <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
               <div class="relative">
                 <img 
                   src="https://via.placeholder.com/300x200/10b981/ffffff?text=iOS+26+vs+iOS+18" 
@@ -96,7 +96,7 @@
             </article>
   
             <!-- Article 3 -->
-            <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
               <div class="relative">
                 <img 
                   src="https://via.placeholder.com/300x200/f59e0b/ffffff?text=iOS+26+Beta+Guide" 
@@ -133,7 +133,7 @@
             <div class="relative">
               <img 
                 src="https://via.placeholder.com/800x300/6366f1/ffffff?text=WWDC+2025+Liquid+Glass" 
-                alt="WWDC 25: Người dùng hào hức vì liquid glass đẹp" 
+                alt="WWDC 25: Người dùng hào hứng vì liquid glass đẹp" 
                 class="w-full h-48 object-cover"
                 loading="lazy"
               >
@@ -144,8 +144,8 @@
               </div>
               <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
               <div class="absolute bottom-4 left-4 right-4 text-white">
-                <h2 class="text-xl md:text-2xl font-bold mb-2 leading-tight">
-                  WWDC 25: Người dùng hào hức vì "liquid glass" đẹp, còn cả phố Wall thì vẫn lo ngay ngáy
+                <h2 class="text-2xl md:text-3xl font-bold mb-2 leading-tight">
+                  WWDC 25: Người dùng hào hứng vì "liquid glass" đẹp, còn cả phố Wall thì vẫn lo ngay ngáy
                 </h2>
                 <p class="text-sm opacity-90 mb-3 line-clamp-2">
                   Cộng đồng công nghệ đang rất hào hứng với thiết kế mới Liquid Glass tại WWDC 2025...
