@@ -14,7 +14,7 @@ import { computed } from 'vue';
 
 const route = useRoute()
 const isAuthPage = computed(() => 
-  route.path === '/login' || route.path === '/register'
+  route.path === '/login' || route.path === '/register' || route.path === '/forgot'
 ) 
 
 </script>
