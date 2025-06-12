@@ -6,6 +6,7 @@ import FactCreate from '@/pages/Fact/FactCreate.vue';
 import Login from '@/pages/Login/Login.vue'
 import Register from '@/pages/Register/Register.vue'
 import Forgot from '@/pages/Forgot/Forgot.vue'
+import Review from '@/pages/Review/Review.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -14,7 +15,8 @@ const routes = [
   { path: '/fact', component: FactCreate },
   { path: '/login', component: Login },
   { path: '/register', component: Register },
-  { path: '/forgot', component: Forgot }
+  { path: '/forgot', component: Forgot },
+  { path: '/review', component: Review },
 ]
 
 const router = createRouter({
