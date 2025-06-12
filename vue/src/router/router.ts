@@ -7,6 +7,7 @@ import Login from '@/pages/Login/Login.vue'
 import Register from '@/pages/Register/Register.vue'
 import Forgot from '@/pages/Forgot/Forgot.vue'
 import Review from '@/pages/Review/Review.vue'
+import Post from '@/pages/Post/Post.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -17,6 +18,7 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/forgot', component: Forgot },
   { path: '/review', component: Review },
+  { path: '/post-list', component: Post },
 ]
 
 const router = createRouter({
