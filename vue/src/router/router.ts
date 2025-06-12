@@ -8,6 +8,7 @@ import Register from '@/pages/Register/Register.vue'
 import Forgot from '@/pages/Forgot/Forgot.vue'
 import Review from '@/pages/Review/Review.vue'
 import Post from '@/pages/Post/Post.vue'
+import BlogDiscout from '@/pages/Discount/BlogDiscout.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -19,6 +20,7 @@ const routes = [
   { path: '/forgot', component: Forgot },
   { path: '/review', component: Review },
   { path: '/post-list', component: Post },
+  { path: '/coupon-page', component: BlogDiscout }
 ]
 
 const router = createRouter({
