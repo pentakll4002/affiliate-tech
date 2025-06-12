@@ -4,13 +4,15 @@ import QuicklyPage from '@/pages/QuicklyPage/QuicklyPage.vue';
 import TrickPage from '@/pages/Trick/TrickPage.vue';
 import FactCreate from '@/pages/Fact/FactCreate.vue';
 import Login from '@/pages/Login/Login.vue'
+import Register from '@/pages/Register/Register.vue'
 
 const routes = [
   { path: '/', component: Home },
   { path: '/quickly-page', component: QuicklyPage },
-  { path: '/trick', component: TrickPage},
-  { path: '/fact', component: FactCreate},
-  { path: '/login', component: Login}
+  { path: '/trick', component: TrickPage },
+  { path: '/fact', component: FactCreate },
+  { path: '/login', component: Login },
+  { path: '/register', component: Register },
 ]
 
 const router = createRouter({
