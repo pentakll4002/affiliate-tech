@@ -1,29 +1,28 @@
 <template>
   <div class="bg-white shadow-lg font-sans">
     <!-- Header -->
-    <header class="flex flex-wrap items-center justify-between px-4 sm:px-6 py-4 gap-4"> <!-- Increased padding -->
+    <header class="flex flex-wrap items-center justify-between px-4 sm:px-6 py-4 gap-4">
       <!-- Logo -->
       <a
-  href="#"
-  class="group flex items-center gap-3 p-2 rounded-lg bg-transparent transition-all duration-500 ease-in-out hover:scale-105"
->
-  <img
-    src="./assets/images/techdeal.jpg"
-    alt="Logo"
-    class="h-10 w-10 object-cover rounded-lg transition duration-500 ease-in-out group-hover:scale-110"
-  />
-  <div class="flex flex-col leading-tight">
-    <span class="text-base sm:text-lg font-semibold text-sky-600 group-hover:text-sky-700 transition-all duration-300">
-      Mottech.vn
-    </span>
-    <span
-      class="text-[10px] text-gray-400 tracking-widest hidden sm:block group-hover:text-gray-500 transition-all duration-300"
-    >
-      MẠNG XÃ HỘI
-    </span>
-  </div>
-</a>
-
+        href="#"
+        class="group flex items-center gap-3 p-2 rounded-lg bg-transparent transition-all duration-500 ease-in-out hover:scale-105"
+      >
+        <img
+          src="./assets/images/techdeal.jpg"
+          alt="Logo"
+          class="h-10 w-10 object-cover rounded-lg transition duration-500 ease-in-out group-hover:scale-110"
+        />
+        <div class="flex flex-col leading-tight">
+          <span class="text-base sm:text-lg font-semibold text-sky-600 group-hover:text-sky-700 transition-all duration-300">
+            Mottech.vn
+          </span>
+          <span
+            class="text-[10px] text-gray-400 tracking-widest hidden sm:block group-hover:text-gray-500 transition-all duration-300"
+          >
+            MẠNG XÃ HỘI
+          </span>
+        </div>
+      </a>
 
       <!-- Search bar -->
       <div class="flex-1 p-4 hidden sm:block">
@@ -42,7 +41,7 @@
       </div>
 
       <!-- Icons group -->
-      <div class="flex items-center bg-gray-100 rounded-full px-3 py-1.5 space-x-2">
+      <div class="flex items-center bg-gray-100 rounded-full px-3 py-1.5 space-x-2 relative">
         <!-- Icon search mobile -->
         <button class="group sm:hidden text-gray-600 hover:text-sky-600 transition transform hover:scale-110">
           <MagnifyingGlassIcon class="w-8 h-8" />
@@ -50,10 +49,34 @@
         </button>
 
         <!-- User -->
-        <button class="group text-gray-600 hover:text-sky-600 transition transform hover:scale-110">
-          <UserCircleIcon class="w-8 h-8" />
-          <span class="block max-w-0 group-hover:max-w-full transition-all duration-300 ease-in-out h-[2px] bg-sky-600 mt-1"></span>
-        </button>
+        <div class="relative">
+          <button 
+            class="group text-gray-600 hover:text-sky-600 transition transform hover:scale-110"
+            @click="toggleLoginMenu"
+          >
+            <UserCircleIcon class="w-8 h-8" />
+            <span class="block max-w-0 group-hover:max-w-full transition-all duration-300 ease-in-out h-[2px] bg-sky-600 mt-1"></span>
+          </button>
+          
+          <!-- Menu thả xuống -->
+          <div 
+            v-if="showLoginMenu" 
+            class="absolute right-0 top-full mt-2 w-52 bg-white border border-gray-300 rounded-xl shadow-xl z-10 overflow-hidden transition-all duration-200 ease-in-out"
+          >
+            <button 
+              class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
+              @click="handleLoginClick"
+            >
+              Đăng nhập tài khoản
+            </button>
+            <button 
+              class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
+              @click="handleRegisterClick"
+            >
+              Đăng ký tài khoản mới
+            </button>
+          </div>
+        </div>
 
         <!-- Menu -->
         <button class="group text-gray-600 hover:text-sky-600 transition transform hover:scale-110">
@@ -67,10 +90,31 @@
 
 <script setup>
 import { Bars3Icon, UserCircleIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const showLoginMenu = ref(false)
+
+const toggleLoginMenu = () => {
+  showLoginMenu.value = !showLoginMenu.value
+}
+
+const handleLoginClick = () => {
+  console.log("Đăng nhập tài khoản được nhấn")
+  showLoginMenu.value = false
+  router.push('/login')
+}
+
+const handleRegisterClick = () => {
+  console.log("Đăng ký tài khoản mới được nhấn")
+  showLoginMenu.value = false
+  router.push('/register')
+}
 </script>
 
 <style scoped>
-/* Ẩn scrollbar ngang của tab */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

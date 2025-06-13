@@ -4,7 +4,7 @@
     <div class="absolute -inset-1 bg-gradient-to-r from-blue-200 via-indigo-200 to-slate-200 rounded-3xl opacity-0 group-hover:opacity-50 blur transition-all duration-500"></div>
     
     <!-- Main Card -->
-    <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-white transform transition-all duration-500 hover:scale-105 cursor-pointer shadow-lg hover:shadow-xl border border-gray-100">
+    <div class="relative w-full aspect-[2.5/4] rounded-2xl overflow-hidden bg-white transform transition-all duration-500 hover:scale-105 cursor-pointer shadow-lg hover:shadow-xl border border-gray-100">
       <!-- Image Container -->
       <div class="relative w-full h-full overflow-hidden">
         <img 
@@ -26,7 +26,7 @@
           <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
           <img 
             :src="avatar" 
-            class="relative w-12 h-12 rounded-full border-2 border-white shadow-lg transition-all duration-300 group-hover:scale-110 object-cover"
+            class="relative w-10 h-10 rounded-full border-2 border-white shadow-lg transition-all duration-300 group-hover:scale-110 object-cover"
             :alt="username"
           />
         </div>

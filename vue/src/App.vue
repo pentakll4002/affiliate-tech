@@ -1,10 +1,13 @@
 <template>
   <div>
     <TheHeader v-if="!isAuthPage" />
-    <router-view />
+
+    <Transition name="fade" mode="out-in">
+      <router-view />
+    </Transition>
+
     <TheFooter v-if="!isAuthPage" />
     <TheChatBot v-if="!isAuthPage" />
-
   </div>
 </template>
 
@@ -16,8 +19,16 @@ import TheChatBot from './pages/ChatBot/ChatBotContainer.vue'
 import { computed } from 'vue';
 
 const route = useRoute()
-const isAuthPage = computed(() => 
+const isAuthPage = computed(() =>
   route.path === '/login' || route.path === '/register' || route.path === '/forgot'
-) 
-
+)
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1.2s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>
