@@ -3,6 +3,8 @@
     <TheHeader v-if="!isAuthPage" />
     <router-view />
     <TheFooter v-if="!isAuthPage" />
+    <TheChatBot v-if="!isAuthPage" />
+
   </div>
 </template>
 
@@ -10,6 +12,7 @@
 import { useRoute } from 'vue-router';
 import TheHeader from './pages/About/Header.vue'
 import TheFooter from './pages/About/Footer.vue'
+import TheChatBot from './pages/ChatBot/ChatBot.vue'
 import { computed } from 'vue';
 
 const route = useRoute()

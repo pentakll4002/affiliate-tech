@@ -19,50 +19,17 @@
     </div>
 
     <!-- Discount Cards -->
-    <div class="space-y-6">
-      <div v-for="(discountGroup, index) in discountGroups" :key="index" class="space-y-4">
-        <!-- Group Header -->
-        <div class="p-4 bg-white rounded-lg shadow-sm">
-          <h3 class="text-xl font-bold text-blue-600">Giảm {{ discountGroup.header.percentage }}</h3>
-          <p class="text-gray-800 font-medium mt-1">Đơn tối thiểu: {{ discountGroup.header.minOrder }}</p>
-          <p class="text-gray-600 italic mt-1">{{ discountGroup.header.note }}</p>
-        </div>
-
-        <!-- Discount Items -->
-        <div class="overflow-hidden rounded-lg shadow-sm border border-gray-200">
-          <table class="min-w-full divide-y divide-gray-200">
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="(item, itemIndex) in discountGroup.items" :key="itemIndex" 
-                  class="hover:bg-gray-50 transition-colors duration-150">
-                <td class="px-4 py-3 whitespace-nowrap">
-                  <div class="flex items-center gap-3">
-                    <ShopIcon class="w-5 h-5 text-blue-500" />
-                    <span class="font-medium text-gray-700">{{ item.shop }}</span>
-                  </div>
-                </td>
-                <td class="px-4 py-3">
-                  <div>
-                    <p class="font-bold text-gray-800">{{ item.percentage }}</p>
-                    <p class="text-gray-600">{{ item.minOrder }}</p>
-                    <p class="text-gray-500 text-sm italic">{{ item.note }}</p>
-                  </div>
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap">
-                  <p class="text-gray-700 font-medium">HSD: {{ item.expiry }}</p>
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap">
-                  <div class="flex gap-2">
-                    <button v-for="(action, actionIndex) in item.actions" :key="actionIndex"
-                            class="flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 hover:scale-105"
-                            :class="actionIndex === 0 ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' : 'bg-gray-800 text-white hover:bg-gray-700'">
-                      <component :is="action.icon" class="w-4 h-4" />
-                      {{ action.text }}
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-for="(discountGroup, index) in discountGroups" :key="index" class="p-4 bg-white rounded-lg shadow-md">
+        <h3 class="text-xl font-bold text-blue-600">Giảm {{ discountGroup.header.percentage }}</h3>
+        <p class="text-gray-800 font-medium mt-1">Đơn tối thiểu: {{ discountGroup.header.minOrder }}</p>
+        <p class="text-gray-600 italic mt-1">{{ discountGroup.header.note }}</p>
+        <div class="mt-4">
+          <button v-for="(item, itemIndex) in discountGroup.items" :key="itemIndex"
+                  class="flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 bg-blue-100 text-blue-700 hover:bg-blue-200">
+            <component :is="item.actions[0].icon" class="w-4 h-4" />
+            {{ item.actions[0].text }}
+          </button>
         </div>
       </div>
     </div>
@@ -212,5 +179,12 @@ const discountGroups: DiscountGroup[] = [
 /* Smooth transitions */
 button, tr {
   transition: all 0.2s ease;
+}
+
+/* Kiểu dáng thẻ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
 }
 </style>
