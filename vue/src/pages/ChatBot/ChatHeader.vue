@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full px-4 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-t-xl flex items-center justify-between">
+  <header class="w-full px-4 py-3 bg-gradient-to-r from-blue-500 via-green-500 to-green-500 rounded-t-xl flex items-center justify-between">
     <div class="flex items-center">
       <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3 backdrop-blur-sm">
         <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">

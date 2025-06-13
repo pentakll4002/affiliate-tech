@@ -12,7 +12,7 @@
 import { useRoute } from 'vue-router';
 import TheHeader from './pages/About/Header.vue'
 import TheFooter from './pages/About/Footer.vue'
-import TheChatBot from './pages/ChatBot/ChatBot.vue'
+import TheChatBot from './pages/ChatBot/ChatBotContainer.vue'
 import { computed } from 'vue';
 
 const route = useRoute()
