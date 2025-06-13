@@ -250,6 +250,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 import {
   UserPlusIcon,
   UserCircleIcon,
@@ -257,9 +258,9 @@ import {
   LockClosedIcon,
   ArrowRightIcon
 } from '@heroicons/vue/24/outline'
+import { useRouter } from 'vue-router'
 
-import {useRouter} from 'vue-router'
-const router = useRouter();
+const router = useRouter()
 
 const formData = ref({
   name: '',
@@ -271,7 +272,7 @@ const formData = ref({
 
 const errorMessage = ref('')
 
-function handleSubmit() {
+const handleSubmit = async () => {
   errorMessage.value = ''
 
   if (!formData.value.terms) {
@@ -284,29 +285,41 @@ function handleSubmit() {
     return
   }
 
-  // Nếu cần validate thêm (email format, độ dài password...), có thể thêm ở đây
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/register', {
+      name: formData.value.name,
+      email: formData.value.email,
+      password: formData.value.password
+    })
 
-  // Xử lý submit (chỉ console log demo)
-  console.log('Dữ liệu đăng ký:', {
-    name: formData.value.name,
-    email: formData.value.email,
-    password: formData.value.password
-  })
-  alert('Đăng ký thành công!')
+    alert(response.data.message)
 
-  // Reset form nếu muốn
-  formData.value.name = ''
-  formData.value.email = ''
-  formData.value.password = ''
-  formData.value.confirmPassword = ''
-  formData.value.terms = false
+    // Reset form
+    formData.value = {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      terms: false
+    }
+
+    // Chuyển sang trang đăng nhập
+    router.push('/login')
+  } catch (error) {
+    if (error.response && error.response.data.errors) {
+      const errors = error.response.data.errors
+      const messages = Object.values(errors).flat()
+      errorMessage.value = messages.join(', ')
+    } else {
+      errorMessage.value = 'Đã xảy ra lỗi khi đăng ký.'
+    }
+  }
 }
 
 const handleLogin = () => {
-  console.log("Vào trang Login thành công");
-  router.push('/login');
+  console.log("Vào trang Login thành công")
+  router.push('/login')
 }
-
 </script>
 
 <style scoped>

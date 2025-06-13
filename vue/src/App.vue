@@ -1,11 +1,7 @@
 <template>
   <div>
     <TheHeader v-if="!isAuthPage" />
-
-    <Transition name="fade" mode="out-in">
       <router-view />
-    </Transition>
-
     <TheFooter v-if="!isAuthPage" />
     <TheChatBot v-if="!isAuthPage" />
   </div>
