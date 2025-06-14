@@ -13,8 +13,10 @@
       "@/*": ["src/*"]
     },
     "types": ["vite/client", "vue"],
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "allowJs": true,
+    "noEmit": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.js"],
   "exclude": ["node_modules"]
 }

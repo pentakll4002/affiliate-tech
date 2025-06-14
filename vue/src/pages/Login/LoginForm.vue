@@ -193,8 +193,10 @@ import {
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/useUserStore.js';
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const formData = ref({
   email: '',
@@ -210,11 +212,20 @@ const handleSubmit = async () => {
   try {
     const res = await axios.post('http://localhost:8000/api/login', formData.value);
 
-    // Nếu dùng Sanctum hay JWT bạn có thể lưu token tại đây (tùy backend trả về)
+    if (res.data.access_token) {
+      localStorage.setItem('authToken', res.data.access_token);
+      userStore.setToken(res.data.access_token);
+      console.log('Auth token saved to localStorage:', res.data.access_token);
+    }
+
+    if (res.data.user) {
+      userStore.setUser(res.data.user);
+      console.log('User data saved to Pinia store:', res.data.user);
+    }
+
     alert(res.data.message || 'Đăng nhập thành công');
     
-    // Điều hướng qua trang chính
-    router.push('/dashboard'); // đổi nếu route bạn khác
+    router.push('/');
   } catch (err: any) {
     alert(err?.response?.data?.message || 'Đăng nhập thất bại');
   }

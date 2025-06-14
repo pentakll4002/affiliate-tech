@@ -13,7 +13,15 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Đăng nhập thành công']);
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'message' => 'Đăng nhập thành công',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user,
+            ]);
         }
 
         return response()->json(['message' => 'Thông tin đăng nhập không đúng'], 401);

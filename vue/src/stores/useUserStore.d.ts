@@ -1,0 +1,1 @@
+// This file is created to provide a declaration for useUserStore.js and resolve TypeScript module not found errors. 

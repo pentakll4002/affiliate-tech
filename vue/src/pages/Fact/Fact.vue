@@ -11,6 +11,7 @@
         <!-- Tạo Fact mới -->
         <div
           class="min-w-[140px] max-w-[140px] flex-shrink-0 flex flex-col items-center justify-center rounded-xl bg-gradient-to-tr from-teal-400 to-blue-500 text-white text-center p-4 cursor-pointer"
+          @click="emitCreateNewFact"
         >
           <div class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center mb-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,7 +59,11 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+// import { useRouter } from 'vue-router' // No longer needed
 import FactCard from './FactCard.vue'
+
+// const router = useRouter() // No longer needed
+const emit = defineEmits(['createNewFactEvent']);
 
 const scrollContainer = ref(null)
 const showScrollButtons = ref(false)
@@ -66,10 +71,15 @@ const showScrollButtons = ref(false)
 // Chỉ hiển thị 8 FactCard ban đầu
 const visibleFacts = computed(() => facts.slice(0, 8))
 
+// Function to emit event to parent
+function emitCreateNewFact() {
+  emit('createNewFactEvent');
+}
+
 // Kiểm tra xem có cần hiển thị nút cuộn không
 function checkScrollNeeded() {
   if (scrollContainer.value) {
-    showScrollButtons.value = 
+    showScrollButtons.value =
       scrollContainer.value.scrollWidth > scrollContainer.value.clientWidth
   }
 }

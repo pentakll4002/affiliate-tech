@@ -23,7 +23,7 @@
           </span>
         </div>
       </a>
-
+      
       <!-- Search bar -->
       <div class="flex-1 p-4 hidden sm:block">
         <div class="relative w-full max-w-[600px]">
@@ -42,6 +42,10 @@
 
       <!-- Icons group -->
       <div class="flex items-center bg-gray-100 rounded-full px-3 py-1.5 space-x-2 relative">
+        <!-- "Xin chào username" next to user icon -->
+        <div v-if="userStore.isLoggedIn" class="text-sky-600 font-semibold text-base pr-2">
+            Xin chào {{ userStore.username }}!
+        </div>
         <!-- Icon search mobile -->
         <button class="group sm:hidden text-gray-600 hover:text-sky-600 transition transform hover:scale-110">
           <MagnifyingGlassIcon class="w-8 h-8" />
@@ -60,29 +64,46 @@
           
           <!-- Menu thả xuống -->
           <div 
-            v-if="showLoginMenu" 
+            v-if="showLoginMenu && !userStore.isLoggedIn" 
             class="absolute right-0 top-full mt-2 w-52 bg-white border border-gray-300 rounded-xl shadow-xl z-10 overflow-hidden transition-all duration-200 ease-in-out"
           >
             <button 
-              class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
-              @click="handleLoginClick"
-            >
-              Đăng nhập tài khoản
-            </button>
-            <button 
-              class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
-              @click="handleRegisterClick"
-            >
-              Đăng ký tài khoản mới
-            </button>
+                class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
+                @click="handleLoginClick"
+              >
+                Đăng nhập tài khoản
+              </button>
+              <button 
+                class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
+                @click="handleRegisterClick"
+              >
+                Đăng ký tài khoản mới
+              </button>
           </div>
         </div>
 
         <!-- Menu -->
-        <button class="group text-gray-600 hover:text-sky-600 transition transform hover:scale-110">
-          <Bars3Icon class="w-8 h-8" />
-          <span class="block max-w-0 group-hover:max-w-full transition-all duration-300 ease-in-out h-[2px] bg-sky-600 mt-1"></span>
-        </button>
+        <div class="relative">
+          <button 
+            class="group text-gray-600 hover:text-sky-600 transition transform hover:scale-110"
+            @click="toggleBarsMenu"
+          >
+            <Bars3Icon class="w-8 h-8" />
+            <span class="block max-w-0 group-hover:max-w-full transition-all duration-300 ease-in-out h-[2px] bg-sky-600 mt-1"></span>
+          </button>
+          <!-- Bars Menu Dropdown -->
+          <div
+            v-if="showBarsMenu && userStore.isLoggedIn"
+            class="absolute right-0 top-full mt-2 w-52 bg-white border border-gray-300 rounded-xl shadow-xl z-10 overflow-hidden transition-all duration-200 ease-in-out"
+          >
+            <button 
+              class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
+              @click="handleLogoutClick"
+            >
+              Đăng xuất
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   </div>
@@ -92,13 +113,24 @@
 import { Bars3Icon, UserCircleIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/useUserStore.js';
 
 const router = useRouter()
+const userStore = useUserStore();
 
 const showLoginMenu = ref(false)
+const showBarsMenu = ref(false) // New ref for Bars Menu
 
 const toggleLoginMenu = () => {
   showLoginMenu.value = !showLoginMenu.value
+  // Close other menu if open
+  if (showBarsMenu.value) showBarsMenu.value = false;
+}
+
+const toggleBarsMenu = () => {
+  showBarsMenu.value = !showBarsMenu.value
+  // Close other menu if open
+  if (showLoginMenu.value) showLoginMenu.value = false;
 }
 
 const handleLoginClick = () => {
@@ -111,6 +143,13 @@ const handleRegisterClick = () => {
   console.log("Đăng ký tài khoản mới được nhấn")
   showLoginMenu.value = false
   router.push('/register')
+}
+
+const handleLogoutClick = () => {
+  userStore.clearUser();
+  showLoginMenu.value = false; // Close user menu
+  showBarsMenu.value = false;  // Close bars menu
+  router.push('/login');
 }
 </script>
 

@@ -18,6 +18,26 @@
       </div>
     </div>
 
+    <!-- Create New Fact Form -->
+    <div class="mb-8 p-6 bg-white rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Create New Fact</h2>
+      <form @submit.prevent="createFact">
+        <div class="mb-4">
+          <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Image URL:</label>
+          <input type="url" id="image" v-model="newFact.image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <div class="mb-4">
+          <label for="avatar" class="block text-gray-700 text-sm font-bold mb-2">Avatar URL:</label>
+          <input type="url" id="avatar" v-model="newFact.avatar" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Create Fact
+        </button>
+      </form>
+      <p v-if="successMessage" class="text-green-500 mt-4">{{ successMessage }}</p>
+      <p v-if="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</p>
+    </div>
+
     <!-- Discount Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div v-for="(discountGroup, index) in discountGroups" :key="index" class="p-4 bg-white rounded-lg shadow-md">
@@ -50,6 +70,9 @@ import {
   BoltIcon as ApDungNgayIcon,
   FunnelIcon as FilterIcon
 } from '@heroicons/vue/24/outline'
+
+import { ref } from 'vue';
+import axios from 'axios';
 
 interface Platform {
   name: string;
@@ -173,6 +196,31 @@ const discountGroups: DiscountGroup[] = [
     ]
   }
 ];
+
+const newFact = ref({ image: '', avatar: '' });
+const successMessage = ref('');
+const errorMessage = ref('');
+
+const createFact = async () => {
+  successMessage.value = '';
+  errorMessage.value = '';
+
+  try {
+    const response = await axios.post('/api/facts', newFact.value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('authToken')}` // Assuming you store the auth token in localStorage
+      }
+    });
+    successMessage.value = response.data.message;
+    newFact.value = { image: '', avatar: '' }; // Clear form
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      errorMessage.value = error.response.data.message || 'Failed to create fact.';
+    } else {
+      errorMessage.value = 'An unexpected error occurred.';
+    }
+  }
+};
 </script>
 
 <style>
