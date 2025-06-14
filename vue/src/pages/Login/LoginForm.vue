@@ -38,8 +38,8 @@
                   />
                 </div>
                 <input
-                  id="username"
-                  v-model="formData.username"
+                  id="email"
+                  v-model="formData.email"
                   type="text"
                   required
                   class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300 transform hover:scale-[1.01]"
@@ -189,27 +189,36 @@ import {
   KeyIcon,
   ArrowRightOnRectangleIcon,
 } from '@heroicons/vue/24/solid';
-import { ref } from 'vue';
 
+import { ref } from 'vue';
+import axios from 'axios';
 import { useRouter } from 'vue-router';
+
 const router = useRouter();
 
 const formData = ref({
-  username: '',
+  email: '',
   password: '',
 });
 
-function handleSubmit() {
-  if (!formData.value.username || !formData.value.password) {
+const handleSubmit = async () => {
+  if (!formData.value.email || !formData.value.password) {
     alert('Vui lòng nhập đủ thông tin!');
     return;
   }
-  alert(
-    `Đăng nhập với tài khoản: ${formData.value.username} và mật khẩu: ${'*'.repeat(
-      formData.value.password.length
-    )}`
-  );
-}
+
+  try {
+    const res = await axios.post('http://localhost:8000/api/login', formData.value);
+
+    // Nếu dùng Sanctum hay JWT bạn có thể lưu token tại đây (tùy backend trả về)
+    alert(res.data.message || 'Đăng nhập thành công');
+    
+    // Điều hướng qua trang chính
+    router.push('/dashboard'); // đổi nếu route bạn khác
+  } catch (err: any) {
+    alert(err?.response?.data?.message || 'Đăng nhập thất bại');
+  }
+};
 
 function handleForgotPassword() {
   console.log("Vào trang ForgotPassword thành công")
@@ -221,7 +230,3 @@ function handleRegister() {
   router.push('/register')
 }
 </script>
-
-<style scoped>
-/* thêm nếu cần chỉnh animation riêng */
-</style>

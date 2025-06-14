@@ -24,4 +24,12 @@ Route::post('/facts', [FactController::class, 'store']);
 use App\Http\Controllers\AuthController;
 Route::post('/register', [AuthController::class, 'register']);
 
+use App\Http\Controllers\Auth\LoginController;
+Route::post('/login', [LoginController::class, 'login']);
+
+use App\Http\Controllers\ForgotPasswordController;
+Route::post('/forgot', [ForgotPasswordController::class, 'sendResetLink']);
+
+
+
 

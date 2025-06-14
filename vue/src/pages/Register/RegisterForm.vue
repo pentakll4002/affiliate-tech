@@ -306,13 +306,31 @@ const handleSubmit = async () => {
     // Chuyển sang trang đăng nhập
     router.push('/login')
   } catch (error) {
-    if (error.response && error.response.data.errors) {
-      const errors = error.response.data.errors
-      const messages = Object.values(errors).flat()
-      errorMessage.value = messages.join(', ')
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      if (error.response.data.errors) {
+        // Validation errors from Laravel
+        const errors = error.response.data.errors
+        const messages = Object.values(errors).flat()
+        errorMessage.value = messages.join(', ')
+      } else if (error.response.data.message) {
+        // Other errors with a message from the backend
+        errorMessage.value = error.response.data.message
+      } else {
+        // Generic HTTP error without a specific message
+        errorMessage.value = `Lỗi từ máy chủ: ${error.response.status} ${error.response.statusText}`
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      errorMessage.value = 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng của bạn hoặc thử lại sau.'
     } else {
-      errorMessage.value = 'Đã xảy ra lỗi khi đăng ký.'
+      // Something happened in setting up the request that triggered an Error
+      errorMessage.value = 'Đã xảy ra lỗi khi gửi yêu cầu đăng ký: ' + error.message
     }
+    console.error('Registration error:', error)
   }
 }
 

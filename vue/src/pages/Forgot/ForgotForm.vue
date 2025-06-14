@@ -83,6 +83,9 @@
   </template>
   
   <script setup lang="ts">
+
+  import axios from 'axios'
+
   import { ref } from 'vue'
   import { 
     KeyIcon,
@@ -136,13 +139,30 @@
     return isValid
   }
   
-  const handleSubmit = () => {
-    if (validateForm()) {
-      console.log('Forgot password submitted:', formData.value)
-      // Gửi yêu cầu đặt lại mật khẩu
-      // Hiển thị thông báo thành công
+  const handleSubmit = async () => {
+  if (!validateForm()) return
+
+  try {
+    const response = await axios.post('http://localhost:8000/api/forgot', {
+      email: formData.value.email
+    })
+
+    if (response.data.status) {
+      alert(response.data.message) // hoặc hiển thị toast
+    } else {
+      alert('Không thể gửi liên kết, vui lòng thử lại.')
+    }
+  } catch (error: any) {
+    if (error.response?.status === 422) {
+      const serverErrors = error.response.data.errors
+      for (const key in serverErrors) {
+        errors.value[key as keyof FormErrors] = serverErrors[key][0]
+      }
+    } else {
+      alert('Đã xảy ra lỗi, vui lòng thử lại sau.')
     }
   }
+}
   </script>
   
   <style>
