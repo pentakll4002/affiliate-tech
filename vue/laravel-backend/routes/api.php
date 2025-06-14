@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 use App\Http\Controllers\FactController;
 Route::post('/facts', [FactController::class, 'store']);
+Route::get('/facts', [FactController::class, 'index']);
 
 use App\Http\Controllers\AuthController;
 Route::post('/register', [AuthController::class, 'register']);

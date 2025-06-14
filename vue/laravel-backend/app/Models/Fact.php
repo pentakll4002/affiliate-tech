@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Fact extends Model
 {
     use HasFactory;
-    protected $fillable = ['username', 'image', 'avatar'];
+    protected $fillable = ['username', 'image', 'avatar', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

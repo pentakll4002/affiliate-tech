@@ -11,7 +11,7 @@
         <!-- Tạo Fact mới -->
         <div
           class="min-w-[140px] max-w-[140px] flex-shrink-0 flex flex-col items-center justify-center rounded-xl bg-gradient-to-tr from-teal-400 to-blue-500 text-white text-center p-4 cursor-pointer"
-          @click="emitCreateNewFact"
+          @click="showCreateFactModal = true"
         >
           <div class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center mb-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -21,10 +21,10 @@
           <span class="text-sm font-medium">Tạo fact mới</span>
         </div>
 
-        <!-- Các Fact - Hiển thị 8 cái ban đầu -->
+        <!-- Các Fact -->
         <FactCard
-          v-for="(fact, index) in visibleFacts"
-          :key="index"
+          v-for="(fact, index) in facts"
+          :key="fact.id || index"
           :image="fact.image"
           :avatar="fact.avatar"
           :username="fact.username"
@@ -54,26 +54,44 @@
         </svg>
       </button>
     </div>
+
+    <!-- Fact Create Modal -->
+    <div v-if="showCreateFactModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <FactCreate @close="showCreateFactModal = false" @fact-created="addFact" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-// import { useRouter } from 'vue-router' // No longer needed
+import { ref, onMounted, onUnmounted } from 'vue'
+import axios from 'axios';
 import FactCard from './FactCard.vue'
+import FactCreate from './FactCreate.vue'
+import { useUserStore } from '@/stores/useUserStore.js';
 
-// const router = useRouter() // No longer needed
-const emit = defineEmits(['createNewFactEvent']);
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
+const userStore = useUserStore();
 
 const scrollContainer = ref(null)
 const showScrollButtons = ref(false)
+const showCreateFactModal = ref(false)
+const facts = ref([]); // Use ref for facts data
 
-// Chỉ hiển thị 8 FactCard ban đầu
-const visibleFacts = computed(() => facts.slice(0, 8))
+// Function to fetch facts from backend
+async function fetchFacts() {
+  try {
+    const response = await axios.get('/api/facts');
+    facts.value = response.data; // Assuming response.data is an array of facts
+  } catch (error) {
+    console.error('Error fetching facts:', error);
+  }
+}
 
-// Function to emit event to parent
-function emitCreateNewFact() {
-  emit('createNewFactEvent');
+// Function to add a new fact to the list
+function addFact(newFact) {
+  facts.value.unshift(newFact);
+  showCreateFactModal.value = false; // Close modal after fact created
 }
 
 // Kiểm tra xem có cần hiển thị nút cuộn không
@@ -98,6 +116,7 @@ function scrollRight() {
 
 // Xử lý responsive
 onMounted(() => {
+  fetchFacts(); // Fetch facts on component mount
   checkScrollNeeded()
   window.addEventListener('resize', checkScrollNeeded)
 })
@@ -105,54 +124,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', checkScrollNeeded)
 })
-
-const facts = [
-  {
-    username: 'Cáo - Foxtek',
-    image: 'https://via.placeholder.com/140x200?text=Foxtek',
-    avatar: 'https://via.placeholder.com/32?text=C',
-  },
-  {
-    username: 'Donald Trump',
-    image: 'https://via.placeholder.com/140x200?text=Trump',
-    avatar: 'https://via.placeholder.com/32?text=D',
-  },
-  {
-    username: 'crazysexycool',
-    image: 'https://via.placeholder.com/140x200?text=CSC',
-    avatar: 'https://via.placeholder.com/32?text=K',
-  },
-  {
-    username: 'hehehe29',
-    image: 'https://via.placeholder.com/140x200?text=Hehe',
-    avatar: 'https://via.placeholder.com/32?text=H',
-  },
-  {
-    username: 'Cho thuê laptop',
-    image: 'https://via.placeholder.com/140x200?text=Thuê',
-    avatar: 'https://via.placeholder.com/32?text=L',
-  },
-  {
-    username: 'nkinhluan',
-    image: 'https://via.placeholder.com/140x200?text=NKL',
-    avatar: 'https://via.placeholder.com/32?text=N',
-  },
-  {
-    username: 'cuhiep',
-    image: 'https://via.placeholder.com/140x200?text=Cuhiep',
-    avatar: 'https://via.placeholder.com/32?text=C',
-  },
-  {
-    username: 'zyzy1908',
-    image: 'https://via.placeholder.com/140x200?text=Zyzy',
-    avatar: 'https://via.placeholder.com/32?text=Z',
-  },
-  {
-    username: 'Yuri Yamamoto',
-    image: 'https://via.placeholder.com/140x200?text=Yuri',
-    avatar: 'https://via.placeholder.com/32?text=Y',
-  },
-]
 </script>
 
 <style scoped>

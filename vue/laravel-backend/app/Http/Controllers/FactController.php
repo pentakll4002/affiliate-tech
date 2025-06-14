@@ -13,6 +13,12 @@ class FactController extends Controller
         $this->middleware('auth:sanctum');
     }
 
+    public function index()
+    {
+        $facts = Fact::all();
+        return response()->json($facts);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -23,12 +29,13 @@ class FactController extends Controller
         $imagePath = $request->file('image')->store('facts', 'public');
         $avatarPath = $request->file('avatar')->store('facts', 'public');
 
-        Fact::create([
+        $fact = Fact::create([
+            'user_id' => auth()->user()->id,
             'username' => auth()->user()->name,
             'image' => Storage::url($imagePath),
             'avatar' => Storage::url($avatarPath),
         ]);
 
-        return response()->json(['message' => 'Fact created successfully'], 201);
+        return response()->json(['message' => 'Fact created successfully', 'fact' => $fact], 201);
     }
 }
