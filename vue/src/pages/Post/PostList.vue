@@ -6,8 +6,8 @@
 </template>
   
   <script setup lang="ts">
-  import { defineComponent } from 'vue'
-  
+  import PostItem from './PostItem.vue';
+
   interface PostType {
     id: number;
     title: string;
@@ -64,59 +64,5 @@
       time: '14:42',
     },
   ]
-  </script>
-  
-  <script lang="ts">
-  import { defineComponent } from 'vue'
-  
-  export default defineComponent({
-    name: 'PostList',
-    components: {
-      PostItem: defineComponent({
-        name: 'PostItem',
-        props: {
-          post: {
-            type: Object as () => {
-              id: number
-              title: string
-              category: string
-              author: string
-              date: string
-              replies: number
-              views: string
-              time: string
-              isNew?: boolean
-            },
-            required: true,
-          },
-        },
-        template: `
-          <div
-            class="bg-white rounded-2xl shadow-md px-6 py-4 flex justify-between items-center transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
-          >
-            <div class="flex items-center gap-3">
-              <div v-if="post.isNew" class="relative">
-                <div class="absolute w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
-                <div class="w-2 h-2 bg-blue-500 rounded-full relative"></div>
-              </div>
-              <div class="space-y-1">
-                <h2 class="text-lg font-semibold text-blue-700 hover:underline cursor-pointer transition duration-300">
-                  {{ post.title }}
-                </h2>
-                <div class="text-sm text-gray-500">
-                  {{ post.category }} • {{ post.author }} • {{ post.date }}
-                </div>
-              </div>
-            </div>
-            <div class="text-right text-sm text-gray-500 min-w-[80px]">
-              <div class="font-semibold text-gray-700">🗨️ {{ post.replies }}</div>
-              <div>👁️ {{ post.views }}</div>
-              <div>🕒 {{ post.time }}</div>
-            </div>
-          </div>
-        `,
-      }),
-    },
-  })
   </script>
   

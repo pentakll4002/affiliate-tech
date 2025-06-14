@@ -4,11 +4,11 @@
         <!-- Main Content Area -->
         <div class="flex-1 max-w-4xl">
           <!-- Featured Article -->
-          <article class="bg-white rounded-xl mb-6 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+          <article v-if="featuredArticle" class="bg-white rounded-xl mb-6 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
             <div class="relative">
               <img 
-                src="https://via.placeholder.com/800x450/4338ca/ffffff?text=QLED+vs+QD-MiniLED" 
-                alt="TV QLED và QD-MiniLED: khác nhau nhiều, cần biết để chọn đúng" 
+                :src="featuredArticle.image_url" 
+                :alt="featuredArticle.title" 
                 class="w-full h-64 md:h-80 object-cover"
                 loading="lazy"
               >
@@ -18,15 +18,15 @@
                   CÔNG NGHỆ
                 </span>
                 <h1 class="text-3xl md:text-4xl font-bold mb-2 leading-tight">
-                  TV QLED và QD-MiniLED: khác nhau nhiều, cần biết để chọn đúng
+                  {{ featuredArticle.title }}
                 </h1>
                 <div class="flex items-center text-sm opacity-90">
                   <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-2">
                     <span class="text-xs font-bold">C</span>
                   </div>
-                  <span class="font-medium">cuhiep</span>
+                  <span class="font-medium">{{ featuredArticle.user.name }}</span>
                   <span class="mx-2">•</span>
-                  <time>{{ formatDate(new Date()) }}</time>
+                  <time>{{ formatDate(new Date(featuredArticle.created_at)) }}</time>
                 </div>
               </div>
             </div>
@@ -34,102 +34,40 @@
   
           <!-- Secondary Articles Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            <!-- Article 1 -->
-            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
+            <article v-for="article in articles.slice(1, 4)" :key="article.id" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
               <div class="relative">
                 <img 
-                  src="https://via.placeholder.com/300x200/ec4899/ffffff?text=iOS+26+Features" 
-                  alt="Tổng hợp những tính năng mới trên iOS 26" 
+                  :src="article.image_url" 
+                  :alt="article.title" 
                   class="w-full h-40 object-cover"
                   loading="lazy"
                 >
                 <div class="absolute top-2 left-2">
-                  <span class="bg-red-500 text-white text-xs px-2 py-1 rounded font-bold">VIDEO</span>
+                  <span class="bg-red-500 text-white text-xs px-2 py-1 rounded font-bold">TIN MỚI</span>
                 </div>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-2 left-2 right-2">
                   <h3 class="text-white text-sm font-semibold line-clamp-2">
-                    Tổng hợp những tính năng mới trên iOS 26
+                    {{ article.title }}
                   </h3>
                 </div>
               </div>
               <div class="p-3">
+                <p class="text-sm text-gray-600 mb-2 line-clamp-2">
+                  {{ article.content }}
+                </p>
                 <div class="flex items-center text-xs text-gray-500 mb-1">
                   <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mr-2">
                     <span class="text-xs font-bold text-white">A</span>
                   </div>
-                  <span class="font-medium">Anh Tú</span>
-                </div>
-              </div>
-            </article>
-  
-            <!-- Article 2 -->
-            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
-              <div class="relative">
-                <img 
-                  src="https://via.placeholder.com/300x200/10b981/ffffff?text=iOS+26+vs+iOS+18" 
-                  alt="So sánh giao diện iOS 26 VS iOS 18" 
-                  class="w-full h-40 object-cover"
-                  loading="lazy"
-                >
-                <div class="absolute top-2 right-2">
-                  <span class="bg-green-500 text-white text-xs px-2 py-1 rounded font-bold">HOT</span>
-                </div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div class="absolute bottom-2 left-2 right-2">
-                  <h3 class="text-white text-sm font-semibold line-clamp-2">
-                    So sánh giao diện iOS 26 VS iOS 18: Quá trời khác!
-                  </h3>
-                </div>
-              </div>
-              <div class="p-3">
-                <p class="text-sm text-gray-600 mb-2 line-clamp-2">
-                  Vào ngày 10/6/2025, Apple đã ra mắt iOS 26 với nhiều thay đổi đáng chú ý về giao diện so với iOS 18...
-                </p>
-                <div class="flex items-center text-xs text-gray-500">
-                  <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-2">
-                    <span class="text-xs font-bold text-white">C</span>
-                  </div>
-                  <span class="font-medium">Cao - Foxtek</span>
-                </div>
-              </div>
-            </article>
-  
-            <!-- Article 3 -->
-            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
-              <div class="relative">
-                <img 
-                  src="https://via.placeholder.com/300x200/f59e0b/ffffff?text=iOS+26+Beta+Guide" 
-                  alt="Hướng dẫn cách nâng cấp lên iOS 26 beta" 
-                  class="w-full h-40 object-cover"
-                  loading="lazy"
-                >
-                <div class="absolute top-2 left-2">
-                  <span class="bg-yellow-500 text-white text-xs px-2 py-1 rounded font-bold">HƯỚNG DẪN</span>
-                </div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div class="absolute bottom-2 left-2 right-2">
-                  <h3 class="text-white text-sm font-semibold line-clamp-2">
-                    Hướng dẫn cách nâng cấp lên iOS 26 beta
-                  </h3>
-                </div>
-              </div>
-              <div class="p-3">
-                <p class="text-sm text-gray-600 mb-2 line-clamp-2">
-                  Bài viết hướng dẫn chi tiết cách cài đặt bản iOS 26 beta mới nhất trên iPhone...
-                </p>
-                <div class="flex items-center text-xs text-gray-500">
-                  <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mr-2">
-                    <span class="text-xs font-bold text-white">A</span>
-                  </div>
-                  <span class="font-medium">Anh Tú</span>
+                  <span class="font-medium">{{ article.user.name }}</span> 
                 </div>
               </div>
             </article>
           </div>
   
-          <!-- WWDC Article -->
-          <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+          <!-- WWDC Article - Placeholder, will be removed if more articles are fetched -->
+          <article v-if="articles.length <= 4" class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
             <div class="relative">
               <img 
                 src="https://via.placeholder.com/800x300/6366f1/ffffff?text=WWDC+2025+Liquid+Glass" 
@@ -340,6 +278,37 @@
   </template>
   
   <script setup lang="ts">
+  import { ref, onMounted } from 'vue';
+  import axios from 'axios';
+  
+  interface Article {
+    id: number;
+    user_id: number;
+    title: string;
+    content: string;
+    image_url: string;
+    created_at: string;
+    updated_at: string;
+    user: {
+      name: string;
+    };
+  }
+  
+  const articles = ref<Article[]>([]);
+  const featuredArticle = ref<Article | null>(null);
+  
+  onMounted(async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/articles');
+      articles.value = response.data;
+      if (articles.value.length > 0) {
+        featuredArticle.value = articles.value[0]; // Set the first article as featured
+      }
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+    }
+  });
+  
   interface QuickLink {
     title: string;
     image: string;

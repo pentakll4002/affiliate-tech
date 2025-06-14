@@ -102,7 +102,7 @@
               </div>
               <div>
                 <p class="text-green-700 font-semibold">Đăng fact thành công!</p>
-                <p class="text-green-600 text-sm">Fact của bạn已成功创建。</p>
+                <p class="text-green-600 text-sm">Fact của bạn</p>
               </div>
             </div>
           </div>

@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 use App\Http\Controllers\FactController;
-Route::post('/facts', [FactController::class, 'store']);
-Route::get('/facts', [FactController::class, 'index']);
+Route::post('/facts', [FactController::class, 'store'])->middleware('auth:sanctum');
+Route::get('/facts', [FactController::class, 'index'])->middleware('auth:sanctum');
 
 // New route for image uploads
 use App\Http\Controllers\ImageUploadController;
@@ -33,9 +33,16 @@ Route::post('/register', [AuthController::class, 'register']);
 
 use App\Http\Controllers\Auth\LoginController;
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 
 use App\Http\Controllers\ForgotPasswordController;
 Route::post('/forgot', [ForgotPasswordController::class, 'sendResetLink']);
+
+use App\Http\Controllers\PostController;
+Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');
+
+use App\Http\Controllers\ArticleController;
+Route::apiResource('articles', ArticleController::class)->middleware('auth:sanctum');
 
 Route::get('/test-image-url', function () {
     $testImagePath = 'images/facts/test.jpg';

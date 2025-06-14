@@ -9,6 +9,8 @@ import Review from '@/pages/Review/Review.vue'
 import Post from '@/pages/Post/Post.vue'
 import BlogDiscout from '@/pages/Discount/BlogDiscout.vue'
 import FactCreate from '@/pages/Fact/FactCreate.vue'
+import ArticleCreate from '@/pages/Article/ArticleCreate.vue'
+import PostCreate from '@/pages/Post/PostCreate.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -20,7 +22,9 @@ const routes = [
   { path: '/forgot', component: Forgot },
   { path: '/review', component: Review },
   { path: '/post-list', component: Post },
-  { path: '/coupon-page', component: BlogDiscout }
+  { path: '/coupon-page', component: BlogDiscout },
+  { path: '/create-article', component: ArticleCreate, name: 'CreateArticle' },
+  { path: '/create-post', component: PostCreate, name: 'CreatePost' },
 ]
 
 const router = createRouter({

@@ -98,6 +98,18 @@
           >
             <button 
               class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
+              @click="handleCreateArticleClick"
+            >
+              Tạo Bài Viết
+            </button>
+            <button 
+              class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
+              @click="handleCreatePostClick"
+            >
+              Tạo Post
+            </button>
+            <button 
+              class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-sky-600 hover:underline hover:decoration-sky-500 hover:underline-offset-4 transition-all duration-200"
               @click="handleLogoutClick"
             >
               Đăng xuất
@@ -119,11 +131,10 @@ const router = useRouter()
 const userStore = useUserStore();
 
 const showLoginMenu = ref(false)
-const showBarsMenu = ref(false) // New ref for Bars Menu
+const showBarsMenu = ref(false)
 
 const toggleLoginMenu = () => {
   showLoginMenu.value = !showLoginMenu.value
-  // Close other menu if open
   if (showBarsMenu.value) showBarsMenu.value = false;
 }
 
@@ -145,10 +156,22 @@ const handleRegisterClick = () => {
   router.push('/register')
 }
 
+const handleCreateArticleClick = () => {
+  console.log("Tạo Bài Viết được nhấn")
+  showBarsMenu.value = false;
+  router.push('/create-article');
+};
+
+const handleCreatePostClick = () => {
+  console.log("Tạo Post được nhấn")
+  showBarsMenu.value = false;
+  router.push('/create-post');
+};
+
 const handleLogoutClick = () => {
   userStore.clearUser();
-  showLoginMenu.value = false; // Close user menu
-  showBarsMenu.value = false;  // Close bars menu
+  showLoginMenu.value = false;
+  showBarsMenu.value = false;
   router.push('/login');
 }
 </script>

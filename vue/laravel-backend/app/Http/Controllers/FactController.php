@@ -21,6 +21,8 @@ class FactController extends Controller
 
     public function store(Request $request)
     {
+        dd(auth()->check(), auth()->user());
+
         $request->validate([
             'image' => 'required|string',
             'avatar' => 'required|string',
