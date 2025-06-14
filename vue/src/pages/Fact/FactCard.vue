@@ -8,10 +8,13 @@
       <!-- Image Container -->
       <div class="relative w-full h-full overflow-hidden">
         <img 
-          :src="image" 
+          v-if="image" :src="image" 
           class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" 
           :alt="username"
         />
+        <div v-else class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">
+          No Image
+        </div>
         
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300"></div>
@@ -25,10 +28,13 @@
         <div class="relative">
           <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
           <img 
-            :src="avatar" 
+            v-if="avatar" :src="avatar" 
             class="relative w-10 h-10 rounded-full border-2 border-white shadow-lg transition-all duration-300 group-hover:scale-110 object-cover"
             :alt="username"
           />
+          <div v-else class="relative w-10 h-10 rounded-full border-2 border-white shadow-lg flex items-center justify-center bg-gray-300 text-gray-600 text-xs">
+            N/A
+          </div>
         </div>
       </div>
 

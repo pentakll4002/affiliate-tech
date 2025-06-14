@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,10 @@ use App\Http\Controllers\FactController;
 Route::post('/facts', [FactController::class, 'store']);
 Route::get('/facts', [FactController::class, 'index']);
 
+// New route for image uploads
+use App\Http\Controllers\ImageUploadController;
+Route::post('/image-upload', [ImageUploadController::class, 'upload']);
+
 use App\Http\Controllers\AuthController;
 Route::post('/register', [AuthController::class, 'register']);
 
@@ -30,6 +36,22 @@ Route::post('/login', [LoginController::class, 'login']);
 
 use App\Http\Controllers\ForgotPasswordController;
 Route::post('/forgot', [ForgotPasswordController::class, 'sendResetLink']);
+
+Route::get('/test-image-url', function () {
+    $testImagePath = 'images/facts/test.jpg';
+    if (!Storage::disk('public')->exists($testImagePath)) {
+        return "Test image does not exist at: storage/app/public/{$testImagePath}";
+    }
+
+    $urlFromStorage = Storage::url($testImagePath);
+    $absoluteUrl = asset($urlFromStorage);
+
+    return response()->json([
+        'storage_url' => $urlFromStorage,
+        'absolute_url_with_asset' => $absoluteUrl,
+        'app_url_env' => env('APP_URL'),
+    ]);
+});
 
 
 

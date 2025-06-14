@@ -88,13 +88,11 @@ async function fetchFacts() {
   }
 }
 
-// Function to add a new fact to the list
 function addFact(newFact) {
   facts.value.unshift(newFact);
-  showCreateFactModal.value = false; // Close modal after fact created
+  showCreateFactModal.value = false;
 }
 
-// Kiểm tra xem có cần hiển thị nút cuộn không
 function checkScrollNeeded() {
   if (scrollContainer.value) {
     showScrollButtons.value =

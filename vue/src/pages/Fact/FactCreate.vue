@@ -137,34 +137,78 @@
   // Define emits
   const emits = defineEmits(['fact-created', 'close']);
 
-  const imageFile = ref(null)
+  const selectedImageFile = ref(null);
   const imagePreviewUrl = ref('')
-  const avatarFile = ref(null)
+  const selectedAvatarFile = ref(null)
   const avatarPreviewUrl = ref('')
+  const uploadedImageUrl = ref('');
+  const uploadedAvatarUrl = ref('');
   const success = ref(false)
   const errorMessage = ref('')
   
-  // Function to handle image file selection and preview
-  function handleImageUpload(event) {
+  async function handleImageUpload(event) {
     const file = event.target.files[0];
     if (file) {
-      imageFile.value = file;
-      imagePreviewUrl.value = URL.createObjectURL(file);
+      selectedImageFile.value = file;
+      imagePreviewUrl.value = URL.createObjectURL(file); // For immediate client-side preview
+      errorMessage.value = ''; // Clear previous errors
+
+      const formData = new FormData();
+      formData.append('image', file); // Ensure the key is 'image'
+
+      try {
+        const response = await axios.post('/api/image-upload', formData, { // Corrected endpoint
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        uploadedImageUrl.value = response.data.image_url; // Corrected to image_url
+        console.log('Image uploaded successfully:', response.data.image_url);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        errorMessage.value = 'Failed to upload image. Please try again.';
+        selectedImageFile.value = null; // Clear file if upload fails
+        imagePreviewUrl.value = '';
+        uploadedImageUrl.value = '';
+      }
+
     } else {
-      imageFile.value = null;
+      selectedImageFile.value = null;
       imagePreviewUrl.value = '';
+      uploadedImageUrl.value = '';
     }
   }
   
   // Function to handle avatar file selection and preview
-  function handleAvatarUpload(event) {
+  async function handleAvatarUpload(event) {
     const file = event.target.files[0];
     if (file) {
-      avatarFile.value = file;
-      avatarPreviewUrl.value = URL.createObjectURL(file);
+      selectedAvatarFile.value = file;
+      avatarPreviewUrl.value = URL.createObjectURL(file); // For immediate client-side preview
+      errorMessage.value = ''; // Clear previous errors
+
+      const formData = new FormData();
+      formData.append('avatar', file); // Corrected to 'avatar' for avatar upload
+
+      try {
+        const response = await axios.post('/api/image-upload', formData, { // Corrected endpoint
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        uploadedAvatarUrl.value = response.data.avatar_url; // Corrected to avatar_url
+        console.log('Avatar uploaded successfully:', response.data.avatar_url);
+      } catch (error) {
+        console.error('Error uploading avatar:', error);
+        errorMessage.value = 'Failed to upload avatar. Please try again.';
+        selectedAvatarFile.value = null; // Clear file if upload fails
+        avatarPreviewUrl.value = '';
+        uploadedAvatarUrl.value = '';
+      }
     } else {
-      avatarFile.value = null;
+      selectedAvatarFile.value = null;
       avatarPreviewUrl.value = '';
+      uploadedAvatarUrl.value = '';
     }
   }
 
@@ -172,13 +216,20 @@
     success.value = false
     errorMessage.value = ''
   
-    const formData = new FormData();
-    if (imageFile.value) {
-      formData.append('image', imageFile.value);
+    // Validate that images have been uploaded and URLs are available
+    if (!uploadedImageUrl.value || !uploadedAvatarUrl.value) {
+      errorMessage.value = 'Vui lòng tải lên cả ảnh chính và ảnh đại diện trước khi đăng Fact.';
+      return;
     }
-    if (avatarFile.value) {
-      formData.append('avatar', avatarFile.value);
-    }
+
+    const factData = { // Changed to a plain object for JSON submission
+      image: uploadedImageUrl.value,
+      avatar: uploadedAvatarUrl.value,
+      // Add other fact fields here if necessary, e.g.,
+      // title: factTitle.value,
+      // description: factDescription.value,
+      // user_id: userStore.user.id, // Example, if you have a user store
+    };
 
     const authToken = localStorage.getItem('authToken');
     
@@ -191,27 +242,28 @@
     console.log('Authorization Header being sent:', `Bearer ${authToken}`);
 
     try {
-      const response = await axios.post('/api/facts', formData, {
+      const response = await axios.post('/api/facts', factData, { // Sending factData as JSON
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json', // Keep as application/json
           Authorization: `Bearer ${authToken}`
         }
       })
       success.value = true
       console.log('Fact created successfully:', response.data)
       
-      // Emit event for parent component
       emits('fact-created', response.data.fact);
 
-      // Clear form fields and previews after successful submission
-      imageFile.value = null;
+      // Reset fields after successful submission
+      selectedImageFile.value = null;
       imagePreviewUrl.value = '';
-      avatarFile.value = null;
+      uploadedImageUrl.value = '';
+      selectedAvatarFile.value = null;
       avatarPreviewUrl.value = '';
+      uploadedAvatarUrl.value = '';
   
       setTimeout(() => {
         success.value = false
-        emits('close'); // Close form after success message fades
+        emits('close');
       }, 3000)
   
     } catch (error) {

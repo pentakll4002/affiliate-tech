@@ -22,18 +22,19 @@ class FactController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|string',
+            'avatar' => 'required|string',
         ]);
 
-        $imagePath = $request->file('image')->store('facts', 'public');
-        $avatarPath = $request->file('avatar')->store('facts', 'public');
+        // Image and avatar are now expected to be URLs from the frontend
+        $imageUrl = $request->image;
+        $avatarUrl = $request->avatar;
 
         $fact = Fact::create([
             'user_id' => auth()->user()->id,
             'username' => auth()->user()->name,
-            'image' => Storage::url($imagePath),
-            'avatar' => Storage::url($avatarPath),
+            'image' => $imageUrl,
+            'avatar' => $avatarUrl,
         ]);
 
         return response()->json(['message' => 'Fact created successfully', 'fact' => $fact], 201);
