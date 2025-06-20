@@ -12,13 +12,14 @@ import FactCreate from '@/pages/Fact/FactCreate.vue'
 import ArticleCreate from '@/pages/Article/ArticleCreate.vue'
 import PostCreate from '@/pages/Post/PostCreate.vue'
 import ArticleDetail from '@/pages/Article/ArticleDetail.vue'
+import FactStoryView from '@/pages/Fact/FactStoryView.vue'
 
 const routes = [
   { path: '/', component: Home },
   { path: '/quickly-page', component: QuicklyPage },
   { path: '/trick', component: TrickPage },
   { path: '/fact', component: FactCreate, name: 'FactCreate' },
-  { path: '/fact/:id', name: 'FactDetail', component: () => import('../pages/Fact/FactDetail.vue'), props: true },
+  { path: '/fact/:id', name: 'FactDetail', component: FactStoryView, props: true },
   { path: '/login', component: Login },
   { path: '/register', component: Register },
   { path: '/forgot', component: Forgot },

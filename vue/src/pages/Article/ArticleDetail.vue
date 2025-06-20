@@ -48,15 +48,15 @@
                             </div>
                         </div>
                         <div v-else class="text-gray-500 mb-6">
-                            No comments yet. Be the first to comment!
+                            Chưa có bình luận nào. Hãy là người đầu tiên bình luận!
                         </div>
 
                         <!-- Comment Form -->
                         <div class="bg-white p-6 rounded-xl shadow-sm">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Leave a Comment</h3>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Để lại bình luận</h3>
                             <textarea 
                                 v-model="newCommentText" 
-                                placeholder="Write your comment here..."
+                                placeholder="Viết bình luận của bạn tại đây..."
                                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
                                 rows="4"
                             ></textarea>
@@ -64,13 +64,13 @@
                                 @click="submitComment"
                                 class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
-                                Submit Comment
+                                Gửi bình luận
                             </button>
                         </div>
                     </section>
                 </div>
                 <div v-else class="text-center text-gray-600 py-10">
-                    Loading article or article not found...
+                    Đang tải bài viết hoặc không tìm thấy bài viết...
                 </div>
             </div>
 
@@ -155,7 +155,7 @@ const submitComment = async () => {
         newCommentText.value = '';
     } catch (error) {
         console.error('Error submitting comment:', error);
-        alert('Failed to submit comment. Please log in or try again.');
+        alert('Gửi bình luận thất bại. Vui lòng đăng nhập hoặc thử lại.');
     }
 };
 
@@ -226,4 +226,4 @@ const scrollToComments = () => {
     border-radius: 0.5rem;
     overflow-x: auto;
 }
-</style>
+</style> 
