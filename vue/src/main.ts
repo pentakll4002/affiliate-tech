@@ -7,6 +7,8 @@ import axios from 'axios'
 
 const pinia = createPinia()
 
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
 axios.interceptors.request.use(config => {
     const authToken = localStorage.getItem('authToken');
     if (authToken) {

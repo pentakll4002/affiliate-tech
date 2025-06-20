@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 use App\Http\Controllers\FactController;
 Route::post('/facts', [FactController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/facts', [FactController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/facts/{fact}', [FactController::class, 'show'])->middleware('auth:sanctum');
 
 // New route for image uploads
 use App\Http\Controllers\ImageUploadController;

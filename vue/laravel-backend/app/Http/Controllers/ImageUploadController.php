@@ -12,8 +12,8 @@ class ImageUploadController extends Controller
     {
         // Validate both image and avatar, making them nullable
         $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $imageUrl = null;

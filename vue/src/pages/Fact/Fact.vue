@@ -22,14 +22,18 @@
         </div>
 
         <!-- Các Fact -->
-        <FactCard
+        <router-link
           v-for="(fact, index) in facts"
           :key="fact.id || index"
-          :image="fact.image"
-          :avatar="fact.avatar"
-          :username="fact.username"
+          :to="{ name: 'FactDetail', params: { id: fact.id } }"
           class="min-w-[140px] max-w-[140px] flex-shrink-0"
-        />
+        >
+          <FactCard
+            :image="fact.image"
+            :avatar="fact.avatar"
+            :username="fact.username"
+          />
+        </router-link>
       </div>
 
       <!-- Nút cuộn trái (chỉ hiển thị khi cần) -->
@@ -62,12 +66,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import axios from 'axios';
 import FactCard from './FactCard.vue'
 import FactCreate from './FactCreate.vue'
-import { useUserStore } from '@/stores/useUserStore.js';
+import { useUserStore } from '@/stores/useUserStore';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 

@@ -4,7 +4,7 @@
       <div class="absolute -inset-1 bg-gradient-to-r from-blue-200 via-indigo-200 to-slate-200 rounded-3xl blur opacity-50"></div>
       
       <!-- Main Container -->
-      <div class="relative bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl p-8 shadow-xl">
+      <div class="relative bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl p-8 shadow-xl max-h-[80vh] overflow-y-auto">
         <!-- Close Button -->
         <button @click="$emit('close')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors duration-200">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -128,10 +128,15 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref, defineEmits } from 'vue'
   import axios from 'axios'
-  
+  import { useRouter } from 'vue-router';
+  import { useUserStore } from '@/stores/useUserStore';
+
+  const router = useRouter();
+  const userStore = useUserStore();
+
   axios.defaults.baseURL = 'http://127.0.0.1:8000'; // Set base URL for Axios
 
   // Define emits
@@ -145,35 +150,38 @@
   const uploadedAvatarUrl = ref('');
   const success = ref(false)
   const errorMessage = ref('')
+  const isSubmitting = ref(false)
   
   async function handleImageUpload(event) {
     const file = event.target.files[0];
-    if (file) {
-      selectedImageFile.value = file;
-      imagePreviewUrl.value = URL.createObjectURL(file); // For immediate client-side preview
-      errorMessage.value = ''; // Clear previous errors
+    if (!file) return;
 
-      const formData = new FormData();
-      formData.append('image', file); // Ensure the key is 'image'
+    if (!userStore.isLoggedIn) {
+      errorMessage.value = 'Bạn phải đăng nhập để tải ảnh lên.';
+      return;
+    }
 
-      try {
-        const response = await axios.post('/api/image-upload', formData, { // Corrected endpoint
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        uploadedImageUrl.value = response.data.image_url; // Corrected to image_url
-        console.log('Image uploaded successfully:', response.data.image_url);
-      } catch (error) {
-        console.error('Error uploading image:', error);
-        errorMessage.value = 'Failed to upload image. Please try again.';
-        selectedImageFile.value = null; // Clear file if upload fails
-        imagePreviewUrl.value = '';
-        uploadedImageUrl.value = '';
-      }
+    selectedImageFile.value = file;
+    imagePreviewUrl.value = URL.createObjectURL(file); // For immediate client-side preview
+    errorMessage.value = ''; // Clear previous errors
 
-    } else {
-      selectedImageFile.value = null;
+    const formData = new FormData();
+    formData.append('image', file); // Ensure the key is 'image'
+
+    try {
+      const response = await axios.post('/api/image-upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userStore.token}`
+        }
+      });
+      uploadedImageUrl.value = response.data.image_url; // Corrected to image_url
+      console.log('Image uploaded successfully:', response.data.image_url);
+    } catch (error: any) {
+      console.error('Error uploading image:', error);
+      console.log('Backend validation error data:', error.response?.data);
+      errorMessage.value = error.response?.data?.message || 'Failed to upload image. Please try again.';
+      selectedImageFile.value = null; // Clear file if upload fails
       imagePreviewUrl.value = '';
       uploadedImageUrl.value = '';
     }
@@ -182,31 +190,34 @@
   // Function to handle avatar file selection and preview
   async function handleAvatarUpload(event) {
     const file = event.target.files[0];
-    if (file) {
-      selectedAvatarFile.value = file;
-      avatarPreviewUrl.value = URL.createObjectURL(file); // For immediate client-side preview
-      errorMessage.value = ''; // Clear previous errors
+    if (!file) return;
 
-      const formData = new FormData();
-      formData.append('avatar', file); // Corrected to 'avatar' for avatar upload
+    if (!userStore.isLoggedIn) {
+      errorMessage.value = 'Bạn phải đăng nhập để tải ảnh đại diện lên.';
+      return;
+    }
 
-      try {
-        const response = await axios.post('/api/image-upload', formData, { // Corrected endpoint
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        uploadedAvatarUrl.value = response.data.avatar_url; // Corrected to avatar_url
-        console.log('Avatar uploaded successfully:', response.data.avatar_url);
-      } catch (error) {
-        console.error('Error uploading avatar:', error);
-        errorMessage.value = 'Failed to upload avatar. Please try again.';
-        selectedAvatarFile.value = null; // Clear file if upload fails
-        avatarPreviewUrl.value = '';
-        uploadedAvatarUrl.value = '';
-      }
-    } else {
-      selectedAvatarFile.value = null;
+    selectedAvatarFile.value = file;
+    avatarPreviewUrl.value = URL.createObjectURL(file); // For immediate client-side preview
+    errorMessage.value = ''; // Clear previous errors
+
+    const formData = new FormData();
+    formData.append('avatar', file); // Corrected to 'avatar' for avatar upload
+
+    try {
+      const response = await axios.post('/api/image-upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userStore.token}`
+        }
+      });
+      uploadedAvatarUrl.value = response.data.avatar_url; // Corrected to avatar_url
+      console.log('Avatar uploaded successfully:', response.data.avatar_url);
+    } catch (error: any) {
+      console.error('Error uploading avatar:', error);
+      console.log('Backend validation error data:', error.response?.data);
+      errorMessage.value = error.response?.data?.message || 'Failed to upload avatar. Please try again.';
+      selectedAvatarFile.value = null; // Clear file if upload fails
       avatarPreviewUrl.value = '';
       uploadedAvatarUrl.value = '';
     }
@@ -216,19 +227,15 @@
     success.value = false
     errorMessage.value = ''
   
-    // Validate that images have been uploaded and URLs are available
     if (!uploadedImageUrl.value || !uploadedAvatarUrl.value) {
       errorMessage.value = 'Vui lòng tải lên cả ảnh chính và ảnh đại diện trước khi đăng Fact.';
+      isSubmitting.value = false;
       return;
     }
 
-    const factData = { // Changed to a plain object for JSON submission
+    const factData = {
       image: uploadedImageUrl.value,
       avatar: uploadedAvatarUrl.value,
-      // Add other fact fields here if necessary, e.g.,
-      // title: factTitle.value,
-      // description: factDescription.value,
-      // user_id: userStore.user.id, // Example, if you have a user store
     };
 
     const authToken = localStorage.getItem('authToken');
@@ -242,10 +249,10 @@
     console.log('Authorization Header being sent:', `Bearer ${authToken}`);
 
     try {
-      const response = await axios.post('/api/facts', factData, { // Sending factData as JSON
+      const response = await axios.post('/api/facts', factData, {
         headers: {
-          'Content-Type': 'application/json', // Keep as application/json
-          Authorization: `Bearer ${authToken}`
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userStore.token}`
         }
       })
       success.value = true

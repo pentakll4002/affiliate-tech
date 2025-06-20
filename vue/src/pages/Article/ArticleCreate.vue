@@ -69,7 +69,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/useUserStore.js';
+import { useUserStore } from '@/stores/useUserStore';
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -121,9 +121,9 @@ const handleSubmit = async () => {
   }
 
   try {
-    const response = await axios.post('http://localhost:8000/api/articles', formData, {
+    const response = await axios.post('/api/articles', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // Important for file uploads
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${userStore.token}`,
       },
     });

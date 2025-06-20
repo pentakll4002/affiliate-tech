@@ -4,10 +4,10 @@
         <!-- Main Content Area -->
         <div class="flex-1 max-w-4xl">
           <!-- Featured Article -->
-          <article v-if="featuredArticle" class="bg-white rounded-xl mb-6 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+          <router-link v-if="featuredArticle" :to="{ name: 'ArticleDetail', params: { id: featuredArticle.id } }" class="block bg-white rounded-xl mb-6 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
             <div class="relative">
               <img 
-                :src="featuredArticle.image_url" 
+                :src="getFullImageUrl(featuredArticle.image_url)"
                 :alt="featuredArticle.title" 
                 class="w-full h-64 md:h-80 object-cover"
                 loading="lazy"
@@ -30,14 +30,14 @@
                 </div>
               </div>
             </div>
-          </article>
+          </router-link>
   
           <!-- Secondary Articles Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            <article v-for="article in articles.slice(1, 4)" :key="article.id" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
+            <router-link v-for="article in articles.slice(1, 4)" :key="article.id" :to="{ name: 'ArticleDetail', params: { id: article.id } }" class="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
               <div class="relative">
                 <img 
-                  :src="article.image_url" 
+                  :src="getFullImageUrl(article.image_url)" 
                   :alt="article.title" 
                   class="w-full h-40 object-cover"
                   loading="lazy"
@@ -63,42 +63,8 @@
                   <span class="font-medium">{{ article.user.name }}</span> 
                 </div>
               </div>
-            </article>
+            </router-link>
           </div>
-  
-          <!-- WWDC Article - Placeholder, will be removed if more articles are fetched -->
-          <article v-if="articles.length <= 4" class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
-            <div class="relative">
-              <img 
-                src="https://via.placeholder.com/800x300/6366f1/ffffff?text=WWDC+2025+Liquid+Glass" 
-                alt="WWDC 25: Người dùng hào hứng vì liquid glass đẹp" 
-                class="w-full h-48 object-cover"
-                loading="lazy"
-              >
-              <div class="absolute top-4 left-4">
-                <span class="bg-purple-600 text-white text-xs px-3 py-1 rounded-full font-bold">
-                  🔥 TRENDING
-                </span>
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-              <div class="absolute bottom-4 left-4 right-4 text-white">
-                <h2 class="text-2xl md:text-3xl font-bold mb-2 leading-tight">
-                  WWDC 25: Người dùng hào hứng vì "liquid glass" đẹp, còn cả phố Wall thì vẫn lo ngay ngáy
-                </h2>
-                <p class="text-sm opacity-90 mb-3 line-clamp-2">
-                  Cộng đồng công nghệ đang rất hào hứng với thiết kế mới Liquid Glass tại WWDC 2025...
-                </p>
-                <div class="flex items-center text-xs">
-                  <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center mr-2">
-                    <span class="text-xs font-bold">PW</span>
-                  </div>
-                  <span class="font-medium">PW</span>
-                  <span class="mx-2">•</span>
-                  <time>{{ formatDate(new Date()) }}</time>
-                </div>
-              </div>
-            </div>
-          </article>
   
           <!-- Comments Section -->
           <section class="mt-8 bg-white rounded-xl shadow-sm p-6">
@@ -208,223 +174,98 @@
   
         <!-- Sidebar -->
         <aside class="w-full lg:w-80 flex-shrink-0">
-          <div class="bg-white rounded-xl shadow-sm p-5 sticky top-4">
-            <div class="flex items-center justify-between mb-4">
-              <h2 class="text-lg font-bold text-gray-900 flex items-center">
-                <span class="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
-                Xem nhanh
-              </h2>
-              <button class="text-blue-600 text-sm hover:underline font-medium hover:text-blue-800 transition-colors">
-                Xem tất cả
-              </button>
-            </div>
-            
-            <div class="space-y-3">
-              <div 
-                v-for="(item, index) in quickLinks" 
-                :key="index" 
-                class="flex gap-3 hover:bg-gray-50 p-2 rounded-lg transition-colors cursor-pointer group"
-              >
-                <div class="flex-shrink-0">
-                  <img 
-                    :src="item.image" 
-                    :alt="item.title" 
-                    class="w-16 h-12 object-cover rounded group-hover:scale-105 transition-transform"
-                    loading="lazy"
-                  >
-                </div>
-                <div class="flex-1 min-w-0">
-                  <h3 class="text-sm font-medium text-gray-900 line-clamp-2 mb-1 group-hover:text-blue-600 transition-colors">
-                    {{ item.title }}
-                  </h3>
-                  <div class="flex items-center text-xs text-gray-500">
-                    <span class="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
-                    <span class="font-medium">{{ item.source }}</span>
-                    <span class="mx-1">•</span>
-                    <time>{{ item.time }}</time>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Popular Tags -->
-          <div class="bg-white rounded-xl shadow-sm p-5 mt-4 sticky top-96">
-            <h3 class="text-lg font-bold text-gray-900 mb-3">Tags phổ biến</h3>
-            <div class="flex flex-wrap gap-2">
-              <span 
-                v-for="tag in popularTags" 
-                :key="tag"
-                class="bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-700 px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors"
-              >
-                #{{ tag }}
-              </span>
-            </div>
-          </div>
-  
-          <!-- Trending Topics -->
-          <div class="bg-white rounded-xl shadow-sm p-5 mt-4">
-            <h3 class="text-lg font-bold text-gray-900 mb-3">Chủ đề nổi bật</h3>
-            <div class="space-y-2">
-              <div v-for="topic in trendingTopics" :key="topic" class="flex items-center">
-                <div class="w-2 h-2 bg-blue-600 rounded-full mr-2"></div>
-                <span class="text-sm text-gray-700 hover:text-blue-600 cursor-pointer">{{ topic }}</span>
-              </div>
-            </div>
-          </div>
+            <!-- Đã ẩn các phần mock: Xem nhanh, Tags phổ biến, Chủ đề nổi bật -->
+            <!-- Nếu sau này có API thực tế, sẽ bổ sung lại -->
         </aside>
       </div>
     </main>
-  </template>
-  
-  <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
-  import axios from 'axios';
-  
-  interface Article {
-    id: number;
-    user_id: number;
-    title: string;
-    content: string;
-    image_url: string;
-    created_at: string;
-    updated_at: string;
-    user: {
-      name: string;
-    };
-  }
-  
-  const articles = ref<Article[]>([]);
-  const featuredArticle = ref<Article | null>(null);
-  
-  onMounted(async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/articles');
-      articles.value = response.data;
-      if (articles.value.length > 0) {
-        featuredArticle.value = articles.value[0]; // Set the first article as featured
-      }
-    } catch (error) {
-      console.error('Error fetching articles:', error);
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+interface Article {
+  id: number;
+  user_id: number;
+  title: string;
+  content: string;
+  image_url: string;
+  created_at: string;
+  updated_at: string;
+  user: {
+    name: string;
+  };
+}
+
+const articles = ref<Article[]>([]);
+const featuredArticle = ref<Article | null>(null);
+const router = useRouter();
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('/api/articles');
+    articles.value = response.data;
+    if (articles.value.length > 0) {
+      featuredArticle.value = articles.value[0]; // Set the first article as featured
     }
-  });
-  
-  interface QuickLink {
-    title: string;
-    image: string;
-    source: string;
-    time: string;
+  } catch (error) {
+    console.error('Error fetching articles:', error);
   }
-  
-  const quickLinks: QuickLink[] = [
-    {
-      title: 'Mỹ tiếp tục đình chỉ xuất khẩu động cơ và phụ tùng đối với dòng COMAC...',
-      image: 'https://via.placeholder.com/80x60/ef4444/ffffff?text=COMAC',
-      source: 'Tech News',
-      time: '2h trước'
-    },
-    {
-      title: 'Lỗ hổng bảo mật có thể khiến số điện thoại liên kết với tài khoản Google...',
-      image: 'https://via.placeholder.com/80x60/f97316/ffffff?text=Security',
-      source: 'Security Alert',
-      time: '4h trước'
-    },
-    {
-      title: 'Giỡn chơi xấu với iOS mới mà vợ giận luôn. Tim Cook hại mình rồi...',
-      image: 'https://via.placeholder.com/80x60/8b5cf6/ffffff?text=iOS',
-      source: 'User Story',
-      time: '6h trước'
-    },
-    {
-      title: 'Vật liệu từ những con tàu đắm trong Thế chiến thứ 2 lại lời giải cho bức xạ...',
-      image: 'https://via.placeholder.com/80x60/06b6d4/ffffff?text=Science',
-      source: 'Science',
-      time: '8h trước'
-    },
-    {
-      title: 'Các nhà khoa học đang phát triển một thế hệ trí tuệ nhân tạo (AI) hoàn...',
-      image: 'https://via.placeholder.com/80x60/10b981/ffffff?text=AI',
-      source: 'AI Research',
-      time: '10h trước'
-    },
-    {
-      title: 'Sam Altman: Mỗi truy vấn ChatGPT sẽ sử dụng lượng nước tương đương...',
-      image: 'https://via.placeholder.com/80x60/f59e0b/ffffff?text=ChatGPT',
-      source: 'Tech Report',
-      time: '12h trước'
-    },
-    {
-      title: 'Chuỗi những tia vị sét có thể là tác nhân tạo ra thành phần cơ bản của s...',
-      image: 'https://via.placeholder.com/80x60/ec4899/ffffff?text=Space',
-      source: 'Space News',
-      time: '1 ngày trước'
-    },
-    {
-      title: 'Loài người đã sử dụng xương cá voi để chế tạo dụng cụ săn bắn từ 20.0...',
-      image: 'https://via.placeholder.com/80x60/84cc16/ffffff?text=History',
-      source: 'History',
-      time: '1 ngày trước'
-    }
-  ];
-  
-  const popularTags = [
-    'iOS26', 'WWDC2025', 'LiquidGlass', 'Apple', 'AI', 'Tech', 'Mobile', 'Security'
-  ];
-  
-  const trendingTopics = [
-    'Công nghệ màn hình QLED',
-    'So sánh iOS 26 vs iOS 18',
-    'Hướng dẫn nâng cấp iOS',
-    'Tin tức WWDC 2025',
-    'Bảo mật điện thoại',
-    'Xu hướng AI 2025'
-  ];
-  
-  function formatDate(date: Date): string {
-    return new Intl.DateTimeFormat('vi-VN', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    }).format(date);
-  }
-  </script>
-  
-  <style scoped>
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-  
-  * {
-    font-family: 'Inter', sans-serif;
-  }
-  
-  /* Custom scrollbar for sidebar */
-  aside::-webkit-scrollbar {
-    width: 4px;
-  }
-  
-  aside::-webkit-scrollbar-track {
-    background: #f1f5f9;
-  }
-  
-  aside::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 2px;
-  }
-  
-  aside::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-  }
-  </style>
+});
+
+function getFullImageUrl(url: string | null) {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  return `http://127.0.0.1:8000${url}`;
+}
+
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('vi-VN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).format(date);
+}
+</script>
+
+<style scoped>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom scrollbar for sidebar */
+aside::-webkit-scrollbar {
+  width: 4px;
+}
+
+aside::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+aside::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+aside::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+</style>

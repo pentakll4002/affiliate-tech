@@ -19,10 +19,19 @@ class FactController extends Controller
         return response()->json($facts);
     }
 
+    public function show($id)
+    {
+        $fact = Fact::find($id);
+
+        if (!$fact) {
+            return response()->json(['message' => 'Fact not found'], 404);
+        }
+
+        return response()->json($fact);
+    }
+
     public function store(Request $request)
     {
-        dd(auth()->check(), auth()->user());
-
         $request->validate([
             'image' => 'required|string',
             'avatar' => 'required|string',

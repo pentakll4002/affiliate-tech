@@ -11,12 +11,14 @@ import BlogDiscout from '@/pages/Discount/BlogDiscout.vue'
 import FactCreate from '@/pages/Fact/FactCreate.vue'
 import ArticleCreate from '@/pages/Article/ArticleCreate.vue'
 import PostCreate from '@/pages/Post/PostCreate.vue'
+import ArticleDetail from '@/pages/Article/ArticleDetail.vue'
 
 const routes = [
   { path: '/', component: Home },
   { path: '/quickly-page', component: QuicklyPage },
   { path: '/trick', component: TrickPage },
   { path: '/fact', component: FactCreate, name: 'FactCreate' },
+  { path: '/fact/:id', name: 'FactDetail', component: () => import('../pages/Fact/FactDetail.vue'), props: true },
   { path: '/login', component: Login },
   { path: '/register', component: Register },
   { path: '/forgot', component: Forgot },
@@ -25,6 +27,7 @@ const routes = [
   { path: '/coupon-page', component: BlogDiscout },
   { path: '/create-article', component: ArticleCreate, name: 'CreateArticle' },
   { path: '/create-post', component: PostCreate, name: 'CreatePost' },
+  { path: '/articles/:id', component: ArticleDetail, name: 'ArticleDetail' },
 ]
 
 const router = createRouter({
